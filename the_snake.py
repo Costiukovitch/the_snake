@@ -49,7 +49,10 @@ class GameObject:
     position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
     body_color = (0, 0, 0)
 
-    def __init__(self, object_position, object_color):
+    def __init__(
+            self, 
+            object_position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2),
+            object_color = (0, 255, 0)):
         """Инициализатор класса GameObject"""
         self.position = object_position
         self.color = object_color
@@ -68,7 +71,7 @@ class Snake(GameObject):
     и метод для перезапуска игры.
     """
 
-    def __init__(self, apple):
+    def __init__(self, apple_position):
         """Инициализатор."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
@@ -76,7 +79,7 @@ class Snake(GameObject):
         self.next_direction = None
         self.body_color = (0, 255, 0)
         self.last = None
-        self.apple_coords = apple.position
+        self.apple_coords = apple_position
 
     def update_direction(self):
         """Метод для обновления направления движения
@@ -204,7 +207,7 @@ def main():
     pygame.init()
     # Тут нужно создать экземпляры классов.
     apple = Apple()
-    snake = Snake(apple)
+    snake = Snake(apple.position)
 
     while True:
         clock.tick(SPEED)
