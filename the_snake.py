@@ -43,40 +43,46 @@ clock = pygame.time.Clock()
 # Тут опишите все классы игры.
 class GameObject:
     """Класс GameObject - родительский, содержит общие атрибуты,
-    инициализатор и метод для дочерних классов."""
+    инициализатор и метод для дочерних классов.
+    """
 
     position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
     body_color = (0, 0, 0)
 
     def __init__(self, object_position, object_color):
-        """Инициализатор класса GameObject"""
+        """Инициализатор класса GameObject
+        """
         self.position = object_position
         self.color = object_color
 
     def draw():
         """Метод для отрисовки объектов на игровом поле,
-        создан для переопределения в дочерних классах."""
+        создан для переопределения в дочерних классах.
+        """
         pass
+
 
 class Snake(GameObject):
     """Класс Snake, содержит инициализатор, методы для
     обновления направления движения, перемещения по экрану,
     отрисовки, получения позиции "головы"
-    и метод для перезапуска игры."""
+    и метод для перезапуска игры.
+    """
 
     def __init__(self, apple):
         """Инициализатор."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
-        self.direction = RIGHT
+        self.direction = choice([UP, DOWN, LEFT, RIGHT])
         self.next_direction = None
         self.body_color = (0, 255, 0)
         self.last = None
         self.apple_coords = apple.position
 
     def update_direction(self):
-        """Метод для обновления направления движения 
-        после нажатия на кнопку."""
+        """Метод для обновления направления движения
+        после нажатия на кнопку.
+        """
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
@@ -91,19 +97,26 @@ class Snake(GameObject):
             if current_x // GRID_SIZE + move_x + 1 > GRID_WIDTH:
                 new_coords = (0, current_y + move_y * GRID_SIZE)
             elif current_x // GRID_SIZE + move_x < 0:
-                new_coords = (SCREEN_WIDTH - GRID_SIZE, current_y + move_y * GRID_SIZE)
+                new_coords = (
+                    SCREEN_WIDTH - GRID_SIZE,
+                    current_y + move_y * GRID_SIZE)
             elif current_y // GRID_SIZE + move_y + 1 > GRID_HEIGHT:
                 new_coords = (current_x + move_x * GRID_SIZE, 0)
             elif current_y // GRID_SIZE + move_y < 0:
-                new_coords = (current_x + move_x * GRID_SIZE, SCREEN_HEIGHT - GRID_SIZE)
+                new_coords = (
+                    current_x + move_x * GRID_SIZE,
+                    SCREEN_HEIGHT - GRID_SIZE)
             else:
-                new_coords = (current_x + move_x * GRID_SIZE, current_y + move_y * GRID_SIZE)
+                new_coords = (
+                    current_x + move_x * GRID_SIZE,
+                    current_y + move_y * GRID_SIZE)
 
             if new_coords in self.positions[2:]:
                 self.reset(apple)
 
             if new_coords == self.apple_coords:
-                while apple.position in self.positions or apple.position == new_coords:
+                while apple.position in self.positions or (
+                    apple.position == new_coords):
                     apple.position = apple.randomize_position()
                 self.apple_coords = apple.position
                 self.length += 1
@@ -121,7 +134,9 @@ class Snake(GameObject):
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
         # Отрисовка головы змейки
-        head_rect = pygame.Rect(self.get_head_position(), (GRID_SIZE, GRID_SIZE))
+        head_rect = pygame.Rect(
+            self.get_head_position(),
+            (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, head_rect)
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
 
@@ -142,7 +157,8 @@ class Snake(GameObject):
 
 class Apple(GameObject):
     """Класс Apple, который содержит инициализатор, метод для отрисовки яблока
-    и метод для создания координат яблока."""
+    и метод для создания координат яблока.
+    """
 
     body_color = (255, 0, 0)
     position = (0, 0)
@@ -154,7 +170,9 @@ class Apple(GameObject):
 
     def randomize_position(self):
         """Создание случайных координат для яблока."""
-        self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE, randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
+        self.position = (
+            randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+            randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
         return self.position
 
     def draw(self):
