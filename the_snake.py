@@ -50,9 +50,9 @@ class GameObject:
     body_color = (0, 0, 0)
 
     def __init__(
-            self, 
-            object_position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2),
-            object_color = (0, 255, 0)):
+            self,
+            object_position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2),
+            object_color=(0, 255, 0)):
         """Инициализатор класса GameObject"""
         self.position = object_position
         self.color = object_color
