@@ -50,8 +50,7 @@ class GameObject:
     body_color = (0, 0, 0)
 
     def __init__(self, object_position, object_color):
-        """Инициализатор класса GameObject
-        """
+        """Инициализатор класса GameObject"""
         self.position = object_position
         self.color = object_color
 
@@ -116,7 +115,7 @@ class Snake(GameObject):
 
             if new_coords == self.apple_coords:
                 while apple.position in self.positions or (
-                    apple.position == new_coords):
+                apple.position == new_coords):
                     apple.position = apple.randomize_position()
                 self.apple_coords = apple.position
                 self.length += 1
