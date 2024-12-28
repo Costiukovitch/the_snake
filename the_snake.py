@@ -114,8 +114,8 @@ class Snake(GameObject):
                 self.reset(apple)
 
             if new_coords == self.apple_coords:
-                while apple.position in self.positions or (
-                apple.position == new_coords):
+                while (apple.position in self.positions) or
+                        (apple.position == new_coords):
                     apple.position = apple.randomize_position()
                 self.apple_coords = apple.position
                 self.length += 1
